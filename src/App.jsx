@@ -1,5 +1,5 @@
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   useLocation,
@@ -32,7 +32,6 @@ function App() {
     setUser({ token: null, role: null });
   };
 
-  // هذا التحديث يتفعل بعد التنقل لأي صفحة (مثلاً بعد login)
   const location = useLocation();
   useEffect(() => {
     const token = localStorage.getItem("token");
