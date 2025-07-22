@@ -9,7 +9,7 @@ function SignUpPatient() {
     gender: "male",
     medicalHistory: "",
     doctorName: "",
-      password: "",
+    password: "",
   });
 
   const [doctors, setDoctors] = useState([]);
@@ -19,7 +19,9 @@ function SignUpPatient() {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const res = await fetch("https://full-hospital.onrender.com/doctors/allDoc");
+        const res = await fetch(
+          "https://full-hospital.onrender.com/doctors/allDoc"
+        );
         const data = await res.json();
         if (res.ok) {
           setDoctors(data.allDoc);
@@ -62,19 +64,25 @@ function SignUpPatient() {
     };
 
     try {
-      const response = await fetch("https://full-hospital.onrender.com/patients/addPatient", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        "https://full-hospital.onrender.com/patients/addPatient",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const data = await response.json();
 
-      if (!response.ok) throw new Error(data.message || "Failed to add patient");
+      if (!response.ok) {
+        setMessage(data.message);
+        return;
+      }
 
-      navigate("/"); 
+      navigate("/");
     } catch (err) {
       setMessage(err.message);
     }
@@ -113,14 +121,14 @@ function SignUpPatient() {
             required
           />
           <input
-  style={styles.input}
-  name="password"
-  type="password"
-  placeholder="Password"
-  value={formData.password}
-  onChange={handleChange}
-  required
-/>
+            style={styles.input}
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
           <select
             style={styles.input}
             name="gender"

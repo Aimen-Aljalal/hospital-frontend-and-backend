@@ -29,26 +29,31 @@ function AddDoctor() {
     };
 
     try {
-      const response = await fetch("https://full-hospital.onrender.com/doctors/addDoctor", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        "https://full-hospital.onrender.com/doctors/addDoctor",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const data = await response.json();
 
-      if (!response.ok) throw new Error(data.message || "Failed to add doctor");
+      if (!response.ok) {
+        setMessage(data.message);
+        return;
+      }
 
       setMessage("Doctor added successfully.");
 
       setTimeout(() => {
         navigate("/");
       }, 1000);
-
     } catch (err) {
-      setMessage(err.message);
+      setMessage("Something went wrong, please try again.");
     }
   };
 

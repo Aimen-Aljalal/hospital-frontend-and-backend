@@ -49,7 +49,7 @@ function App() {
       if (notify.senderId !== userId) {
         toast.info(`new message :  ${notify.message}`, {
           position: "top-right",
-          autoClose: 4000,
+          autoClose: 10000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
