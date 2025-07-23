@@ -14,6 +14,8 @@ function SignUpPatient() {
 
   const [doctors, setDoctors] = useState([]);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); 
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,6 +48,7 @@ function SignUpPatient() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
+    setLoading(true); 
 
     const selectedDoctor = doctors.find(
       (doc) => doc.name === formData.doctorName
@@ -53,6 +56,7 @@ function SignUpPatient() {
 
     if (!selectedDoctor) {
       setMessage("Doctor not found.");
+      setLoading(false);
       return;
     }
 
@@ -79,12 +83,14 @@ function SignUpPatient() {
 
       if (!response.ok) {
         setMessage(data.message);
+        setLoading(false);
         return;
       }
 
       navigate("/");
     } catch (err) {
       setMessage(err.message);
+      setLoading(false);
     }
   };
 
@@ -162,8 +168,8 @@ function SignUpPatient() {
             ))}
           </select>
 
-          <button style={styles.button} type="submit">
-            Register Patient
+          <button style={styles.button} type="submit" disabled={loading}>
+            {loading ? "Registering..." : "Register Patient"}
           </button>
         </form>
         {message && <p style={styles.message}>{message}</p>}
@@ -210,6 +216,7 @@ const styles = {
     borderRadius: "6px",
     fontSize: "16px",
     cursor: "pointer",
+    opacity: 1,
   },
   message: {
     marginTop: "15px",

@@ -1,6 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Home() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (token && role) {
+      if (role === "doctor") {
+        navigate("/doctor-dashboard");
+      } else if (role === "patient") {
+        navigate("/patient-dashboard");
+      }
+    }
+  }, []);
+
   return (
     <div style={styles.container}>
       <div style={styles.box}>

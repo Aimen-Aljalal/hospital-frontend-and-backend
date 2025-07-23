@@ -10,6 +10,7 @@ function Login() {
   });
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -21,6 +22,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
       const response = await fetch("https://full-hospital.onrender.com/auth/login", {
@@ -49,6 +51,7 @@ function Login() {
       }
     } catch (err) {
       setError(err.message);
+      setLoading(false);
     }
   };
 
@@ -75,8 +78,8 @@ function Login() {
             onChange={handleChange}
             required
           />
-          <button style={styles.button} type="submit">
-            Log In
+          <button style={styles.button} type="submit" disabled={loading}>
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
         {error && <p style={styles.error}>{error}</p>}
@@ -131,4 +134,3 @@ const styles = {
 };
 
 export default Login;
-

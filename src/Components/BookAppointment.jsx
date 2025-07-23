@@ -7,6 +7,11 @@ function BookAppointment() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const now = new Date();
+  const localISOTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 16);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -43,6 +48,7 @@ function BookAppointment() {
           type="datetime-local"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          min={localISOTime}
           required
           style={styles.input}
         />

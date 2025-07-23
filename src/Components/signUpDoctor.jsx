@@ -10,6 +10,8 @@ function AddDoctor() {
     password: "",
   });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); 
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,6 +24,7 @@ function AddDoctor() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
+    setLoading(true); 
 
     const payload = {
       ...formData,
@@ -44,6 +47,7 @@ function AddDoctor() {
 
       if (!response.ok) {
         setMessage(data.message);
+        setLoading(false);
         return;
       }
 
@@ -54,6 +58,7 @@ function AddDoctor() {
       }, 1000);
     } catch (err) {
       setMessage("Something went wrong, please try again.");
+      setLoading(false);
     }
   };
 
@@ -107,8 +112,8 @@ function AddDoctor() {
             onChange={handleChange}
             required
           />
-          <button style={styles.button} type="submit">
-            Register Doctor
+          <button style={styles.button} type="submit" disabled={loading}>
+            {loading ? "Registering..." : "Register Doctor"}
           </button>
         </form>
         {message && <p style={styles.message}>{message}</p>}
@@ -155,6 +160,7 @@ const styles = {
     borderRadius: "6px",
     fontSize: "16px",
     cursor: "pointer",
+    opacity: 1,
   },
   message: {
     marginTop: "15px",
